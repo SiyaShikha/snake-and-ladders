@@ -16,7 +16,7 @@ function rollDice() {
 }
 
 function snakeFound(position) {
-  console.log("🐍 Ops! Snake has bit you.🐍")
+  console.log("🐍 Ops! Snake has bit you.🐍");
   switch (position) {
     case 28:
       return 10;
@@ -34,7 +34,7 @@ function snakeFound(position) {
 }
 
 function ladderFound(position) {
-  console.log("🪜 Hey! You got a Ladder.🪜")
+  console.log("🪜 Hey! You got a Ladder.🪜");
   switch (position) {
     case 4:
       return 56;
@@ -125,7 +125,7 @@ function startPlaying() {
   if (confirm("\nDo you want to play new game?")) {
     startPlaying();
   } else {
-    console.log("\nGoodBye!\n");
+    console.log("\n🙏Thanks for playing.\n");
   }
 }
 
@@ -136,4 +136,4 @@ if (start) {
   startPlaying();
 } else {
   console.log(getBox("\nGoodBye!\n"));
-} 
+}
