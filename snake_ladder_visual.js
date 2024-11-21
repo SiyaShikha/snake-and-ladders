@@ -135,7 +135,6 @@ function player1(p1Position, p2Position) {
 
   console.clear();
   p1Position = nextPosition(p1Position, p1RolledNum);
-
   console.log(getBox("Player1 rolled dice to number :" + p1RolledNum));
 
   return p1Position;
@@ -153,7 +152,6 @@ function player2(p2Position, p1Position) {
 
   console.clear();
   p2Position = nextPosition(p2Position, p2RolledNum);
-
   console.log(getBox("Player2 rolled dice to number :" + p2RolledNum));
 
   return p2Position;
