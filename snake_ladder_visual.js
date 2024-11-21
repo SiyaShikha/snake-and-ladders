@@ -66,7 +66,7 @@ function rollDice() {
 }
 
 function snakeFound(position) {
-  console.log("🐍 Ops! Snake has bit you.🐍")
+  console.log("🐍 Ops! Snake has bit you.🐍");
   switch (position) {
     case 28:
       return 10;
@@ -84,7 +84,7 @@ function snakeFound(position) {
 }
 
 function ladderFound(position) {
-  console.log("🪜 Hey! You got a Ladder.🪜")
+  console.log("🪜 Hey! You got a Ladder.🪜");
   switch (position) {
     case 4:
       return 56;
@@ -133,10 +133,10 @@ function player1(p1Position, p2Position) {
   const p1RolledNum = rollDice();
   p1Position += p1RolledNum;
 
+  console.clear();
   p1Position = nextPosition(p1Position, p1RolledNum);
 
-  console.clear();
-  console.log(getBox("Player1 Rolled number :" + p1RolledNum));
+  console.log(getBox("Player1 rolled dice to number :" + p1RolledNum));
 
   return p1Position;
 }
@@ -151,10 +151,10 @@ function player2(p2Position, p1Position) {
   const p2RolledNum = rollDice();
   p2Position += p2RolledNum;
 
+  console.clear();
   p2Position = nextPosition(p2Position, p2RolledNum);
 
-  console.clear();
-  console.log(getBox("Player2 Rolled number :" + p2RolledNum));
+  console.log(getBox("Player2 rolled dice to number :" + p2RolledNum));
 
   return p2Position;
 }
