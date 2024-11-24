@@ -1,18 +1,26 @@
 function repeat(string, nTimes) {
-  if (nTimes <= 0) {
-    return "";
+  let repeatedString = "";
+  for (let index = 0; index < nTimes; index++) {
+    repeatedString += string;
   }
-
-  return string + repeat(string, nTimes - 1);
+  return repeatedString;
 }
 
-function getBox(string) {
-  const line = repeat("―", string.length);
+function decorateMessage(string) {
+  const line = repeat("𓍼", string.length);
   return line + "\n" + string + "\n" + line;
 }
 
-function createLine(limit) {
-  return repeat("―", limit);
+function createTopLine() {
+  return "┏" + repeat("━━━━━━┳", 9) + "━━━━━━" + "┓";
+}
+
+function createBottomLine() {
+  return "┗" + repeat("━━━━━━┻", 9) + "━━━━━━" + "┛";
+}
+
+function createLine() {
+  return "┣" + repeat("━━━━━━╋", 9) + "━━━━━━" + "┫";
 }
 
 function getBoxNumber(rowNumber, index) {
@@ -36,29 +44,44 @@ function createRow(rowNumber, p1Position, p2Position) {
   for (let index = 1; index <= 10; index++) {
     const boxNumber = getBoxNumber(rowNumber, index);
     if (boxNumber === p1Position) {
-      char += "🔴 " + "\t│";
+      char += "┃  🔴  ";
     } else if (boxNumber === p2Position) {
-      char += "🟡" + "\t│";
+      char += "┃  🟡  ";
     } else if (boxNumber === 100) {
-      char += "🏆" + "\t│";
+      char += "┃  🏆  ";
     } else if (isSnake(boxNumber)) {
-      char += "🐍" + "\t│";
+      char += "┃  🐍  ";
     } else if (isLadder(boxNumber)) {
-      char += "🪜" + "\t│";
+      char += "┃  🪜  ";
+    } else if (boxNumber < 10) {
+      char += "┃   " + boxNumber + "  ";
     } else {
-      char += boxNumber + "\t│";
+      char += "┃  " + boxNumber + "  ";
     }
   }
 
-  return char;
+  return char + "┃";
 }
 
-function createBoard(p1Position, p2Position) {
-  for (let rowNumber = 0; rowNumber < 10; rowNumber++) {
-    console.log(createLine(8 * 10));
-    console.log(createRow(rowNumber, p1Position, p2Position));
+function createEmpty() {
+  let char = "";
+  for (let index = 1; index <= 10; index++) {
+    char += "┃      ";
   }
-  console.log(createLine(8 * 10));
+  return char + "┃";
+}
+
+
+function createBoard(p1Position, p2Position) {
+  console.log(createTopLine());
+  for (let rowNumber = 0; rowNumber < 9; rowNumber++) {
+    console.log(createRow(rowNumber, p1Position, p2Position));
+    console.log(createEmpty());
+    console.log(createLine());
+  }
+  console.log(createRow(9, p1Position, p2Position));
+  console.log(createEmpty());
+  console.log(createBottomLine());
 }
 
 function rollDice() {
@@ -123,19 +146,26 @@ function nextPosition(position, rolledNum) {
   }
 }
 
+function delay(time) {
+  for (let i = 0; i <= time; i++) { }
+}
+
+function showDice(rolledNum) {
+  console.clear();
+  console.log(decorateMessage("dice rolled to : " + rolledNum));
+  delay(1000000000);
+}
+
 function player1(p1Position, p2Position) {
   createBoard(p1Position, p2Position);
 
-  const p1CurrentPosition = getBox("Current Position : " + p1Position);
-  console.log("\n\n" + "🧑🏻‍💼 Player1\n" + p1CurrentPosition);
-
+  console.log("\nplayer1 Turn🧑🏻‍💼");
   prompt("Hit return to roll the dice 🎲");
   const p1RolledNum = rollDice();
+  showDice(p1RolledNum);
   p1Position += p1RolledNum;
 
-  console.clear();
   p1Position = nextPosition(p1Position, p1RolledNum);
-  console.log(getBox("Player1 rolled dice to number :" + p1RolledNum));
 
   return p1Position;
 }
@@ -143,55 +173,75 @@ function player1(p1Position, p2Position) {
 function player2(p2Position, p1Position) {
   createBoard(p1Position, p2Position);
 
-  const p2CurrentPosition = getBox("Current Position : " + p2Position);
-  console.log("\n\n" + "👩🏻‍💼 Player2\n" + p2CurrentPosition);
-
+  console.log("\nplayer2 Turn👩🏻‍💼");
   prompt("Hit return to roll the dice 🎲");
   const p2RolledNum = rollDice();
+  showDice(p2RolledNum);
   p2Position += p2RolledNum;
 
-  console.clear();
   p2Position = nextPosition(p2Position, p2RolledNum);
-  console.log(getBox("Player2 rolled dice to number :" + p2RolledNum));
 
   return p2Position;
 }
 
-function startPlaying() {
-  let p1Position = 0;
-  let p2Position = 0;
+function getWinningMessage() {
+  return "\n🏆Congratulations! Player1 won the Game🏆\n";
+}
+
+function showScoreBoard(p1Position, p2Position) {
+  console.clear();
+  console.log(decorateMessage("🏅🏅SCORE BOARD"));
+  console.log("🧑🏻‍💼Player1 :" + p1Position + "\n👩🏻‍💼Player2 :" + p2Position);
+}
+
+function playGame(p1, p2) {
+  let p1Position = p1;
+  let p2Position = p2;
 
   while (p1Position !== 100 && p2Position !== 100) {
     // Player1
     p1Position = player1(p1Position, p2Position);
-    console.log("🧑🏻‍💼Player1 :" + p1Position + "\t👩🏻‍💼 Player2 :" + p2Position);
+    showScoreBoard(p1Position, p2Position);
 
     if (p1Position === 100) {
-      console.log("\n🏆Congratulations! Player1 won the Game. 🏆\n");
-      break;
+      console.log(getWinningMessage());
+      return;
     }
 
     // Player2
     p2Position = player2(p2Position, p1Position);
-    console.log("🧑🏻‍💼Player1 :" + p1Position + "\t👩🏻‍💼 Player2 :" + p2Position);
+    showScoreBoard(p1Position, p2Position);
 
     if (p2Position === 100) {
-      console.log("\n🏆Congratulations! Player2 won the Game. 🏆\n");
+      console.log(getWinningMessage());
+      return;
     }
   }
+}
 
-  if (confirm("\nDo you want to play new game?")) {
-    startPlaying();
-  } else {
-    console.log("\nGoodBye!\n");
+function showWelcomeMessage() {
+  console.log(decorateMessage("🐍🪜 WELCOME TO SNAKE AND LADDER GAME 🪜🐍"));
+}
+
+function showGoodByeMessage() {
+  console.log(decorateMessage("🙋🏻‍♀️GoodBye!"));
+}
+
+function userWantsToPlayAgain() {
+  return confirm("\nDo you want to play new game?");
+}
+
+
+function startGame(p1, p2) {
+  showWelcomeMessage();
+  prompt("\nHit return to start the Game 👇");
+  playGame(p1, p2);
+
+  if (userWantsToPlayAgain()) {
+    return startGame();
   }
+
+  showGoodByeMessage();
 }
 
-console.log(getBox("🐍🪜 WELCOME TO SNAKE AND LADDER GAME 🪜🐍"));
-const start = confirm("Do you want to start the game?");
-
-if (start) {
-  startPlaying();
-} else {
-  console.log(getBox("\nGoodBye!\n"));
-}
+startGame(0, 0);
