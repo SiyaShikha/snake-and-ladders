@@ -1,9 +1,9 @@
 function repeat(string, nTimes) {
-  if (nTimes <= 0) {
-    return "";
+  let repeatedString = "";
+  for (let index = 0; index < nTimes; index++) {
+    repeatedString += string;
   }
-
-  return string + repeat(string, nTimes - 1);
+  return repeatedString;
 }
 
 function getBox(string) {
@@ -101,39 +101,55 @@ function player2(p2Position) {
   return p2Position;
 }
 
-function startPlaying() {
-  let p1Position = 0;
-  let p2Position = 0;
+function getWinningMessage() {
+  return "\n🏆Congratulations! Player1 won the Game. 🏆\n";
+}
 
-  while (!(p1Position === 100 || p2Position === 100)) {
+function playGame(p1, p2) {
+  let p1Position = p1;
+  let p2Position = p2;
+
+  while (p1Position !== 100 && p2Position !== 100) {
     // Player1
     p1Position = player1(p1Position);
 
     if (p1Position === 100) {
-      console.log("\n🏆Congratulations! Player1 won the Game. 🏆\n");
-      break;
+      console.log(getWinningMessage());
+      return;
     }
 
     // Player2
     p2Position = player2(p2Position);
 
     if (p2Position === 100) {
-      console.log("\n🏆Congratulations! Player2 won the Game. 🏆\n");
+      console.log(getWinningMessage());
+      return;
     }
   }
+}
 
-  if (confirm("\nDo you want to play new game?")) {
-    startPlaying();
-  } else {
-    console.log("\n🙏Thanks for playing.\n");
+function showWelcomeMessage() {
+  console.log(getBox("🐍🪜 WELCOME TO SNAKE AND LADDER GAME 🪜🐍"));
+}
+
+function showGoodByeMessage() {
+  console.log(getBox("🙋🏻‍♀️GoodBye!"));
+}
+
+function userWantsToPlayAgain() {
+  return confirm("\nDo you want to play new game?");
+}
+
+function startGame() {
+  showWelcomeMessage();
+  prompt("\nHit return to start the Game 👇");
+  playGame(0, 0);
+
+  if (userWantsToPlayAgain()) {
+    return playGame(0, 0);
   }
+
+  showGoodByeMessage();
 }
 
-console.log(getBox("🐍🪜 WELCOME TO SNAKE AND LADDER GAME 🪜🐍"));
-const start = confirm("\nDo you want to start the game?");
-
-if (start) {
-  startPlaying();
-} else {
-  console.log(getBox("\nGoodBye!\n"));
-}
+startGame();
