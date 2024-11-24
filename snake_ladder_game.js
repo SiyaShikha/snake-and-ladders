@@ -6,8 +6,8 @@ function repeat(string, nTimes) {
   return repeatedString;
 }
 
-function getBox(string) {
-  const line = repeat("―", string.length);
+function decorateMessage(string) {
+  const line = repeat("─", string.length);
   return line + "\n" + string + "\n" + line;
 }
 
@@ -74,7 +74,7 @@ function nextPosition(position, rolledNum) {
 }
 
 function player1(p1Position) {
-  const p1CurrentPosition = getBox("Current Position : " + p1Position);
+  const p1CurrentPosition = decorateMessage("Current Position : " + p1Position);
   console.log("\n\n" + "🧑🏻‍💼 Player1\n" + p1CurrentPosition);
   prompt("Hit return to roll the dice 🎲");
   const p1RolledNum = rollDice();
@@ -83,12 +83,12 @@ function player1(p1Position) {
 
   p1Position = nextPosition(p1Position, p1RolledNum);
 
-  console.log(getBox("New Position     : " + p1Position));
+  console.log(decorateMessage("New Position     : " + p1Position));
   return p1Position;
 }
 
 function player2(p2Position) {
-  const p2CurrentPosition = getBox("Current Position : " + p2Position);
+  const p2CurrentPosition = decorateMessage("Current Position : " + p2Position);
   console.log("\n\n" + "👩🏻‍💼 Player2\n" + p2CurrentPosition);
   prompt("Hit return to roll the dice 🎲");
   const p2RolledNum = rollDice();
@@ -97,7 +97,7 @@ function player2(p2Position) {
 
   p2Position = nextPosition(p2Position, p2RolledNum);
 
-  console.log(getBox("New Position     : " + p2Position));
+  console.log(decorateMessage("New Position     : " + p2Position));
   return p2Position;
 }
 
@@ -129,11 +129,11 @@ function playGame(p1, p2) {
 }
 
 function showWelcomeMessage() {
-  console.log(getBox("🐍🪜 WELCOME TO SNAKE AND LADDER GAME 🪜🐍"));
+  console.log(decorateMessage("🐍🪜 WELCOME TO SNAKE AND LADDER GAME 🪜🐍"));
 }
 
 function showGoodByeMessage() {
-  console.log(getBox("🙋🏻‍♀️GoodBye!"));
+  console.log(decorateMessage("🙋🏻‍♀️GoodBye!"));
 }
 
 function userWantsToPlayAgain() {
