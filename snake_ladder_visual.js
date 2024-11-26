@@ -11,16 +11,16 @@ function decorateMessage(string) {
   return line + "\n" + string + "\n" + line;
 }
 
-function createTopLine() {
-  return "┏" + repeat("━━━━━━┳", 9) + "━━━━━━" + "┓";
+function createTopLine(length) {
+  return "┏" + repeat("━━━━━━┳", length - 1) + "━━━━━━" + "┓";
 }
 
-function createBottomLine() {
-  return "┗" + repeat("━━━━━━┻", 9) + "━━━━━━" + "┛";
+function createBottomLine(length) {
+  return "┗" + repeat("━━━━━━┻", length - 1) + "━━━━━━" + "┛";
 }
 
-function createLine() {
-  return "┣" + repeat("━━━━━━╋", 9) + "━━━━━━" + "┫";
+function createLine(length) {
+  return "┣" + repeat("━━━━━━╋", length - 1) + "━━━━━━" + "┫";
 }
 
 function getBoxNumber(rowNumber, index) {
@@ -63,9 +63,9 @@ function createRow(rowNumber, p1Position, p2Position) {
   return char + "┃";
 }
 
-function createEmpty() {
+function createEmptyRow(length) {
   let char = "";
-  for (let index = 1; index <= 10; index++) {
+  for (let index = 1; index <= length; index++) {
     char += "┃      ";
   }
   return char + "┃";
@@ -73,15 +73,15 @@ function createEmpty() {
 
 
 function createBoard(p1Position, p2Position) {
-  console.log(createTopLine());
+  console.log(createTopLine(10));
   for (let rowNumber = 0; rowNumber < 9; rowNumber++) {
     console.log(createRow(rowNumber, p1Position, p2Position));
-    console.log(createEmpty());
-    console.log(createLine());
+    console.log(createEmptyRow(10));
+    console.log(createLine(10));
   }
   console.log(createRow(9, p1Position, p2Position));
-  console.log(createEmpty());
-  console.log(createBottomLine());
+  console.log(createEmptyRow(10));
+  console.log(createBottomLine(10));
 }
 
 function rollDice() {
