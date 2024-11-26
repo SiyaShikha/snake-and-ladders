@@ -28,15 +28,23 @@ function getBoxNumber(rowNumber, index) {
 }
 
 function isSnake(boxNumber) {
-  const startSnakes = boxNumber === 28 || boxNumber === 37 || boxNumber === 48;
-  const endSnakes = boxNumber === 75 || boxNumber === 94 || boxNumber === 96;
-  return startSnakes || endSnakes;
+  const snakes = [28, 37, 48, 75, 94, 96];
+  for (let index = 0; index < snakes.length; index++) {
+    if (boxNumber === snakes[index]) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function isLadder(boxNumber) {
-  const startLadders = boxNumber === 4 || boxNumber === 12 || boxNumber === 14;
-  const endLadders = boxNumber === 22 || boxNumber === 41 || boxNumber === 54;
-  return startLadders || endLadders;
+  const ladders = [4, 12, 14, 22, 41, 54];
+  for (let index = 0; index < ladders.length; index++) {
+    if (boxNumber === ladders[index]) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function createRow(rowNumber, p1Position, p2Position) {
@@ -129,21 +137,15 @@ function nextPosition(position, rolledNum) {
     position = position - rolledNum;
   }
 
-  switch (position) {
-    case 28:
-    case 37:
-    case 48:
-    case 75:
-    case 94:
-    case 96: return snakeFound(position);
-    case 4:
-    case 12:
-    case 14:
-    case 22:
-    case 41:
-    case 54: return ladderFound(position);
-    default: return position;
+  if (isSnake(position)) {
+    return snakeFound(position);
   }
+
+  if (isLadder(position)) {
+    return ladderFound(position);
+  }
+
+  return position;
 }
 
 function delay(time) {
